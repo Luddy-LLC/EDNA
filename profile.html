@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+    <script src="msalConfig.js"></script>
+    <script src="auth.js"></script>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <h1>User Profile</h1>
+        <div id="profileInfo"></div>
+        <a href="index.html">Back to Home</a>
+
+
+        <script>
+
+            async function showProfile(account) {
+                try {
+                    const tokenResponse = await msalInstance.acquireTokenSilent({
+                        scopes: ["User.Read"],
+                        account: account
+                    });
+
+                    const graphResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
+                        headers: {
+                            Authorization: `Bearer ${tokenResponse.accessToken}`
+                        }
+                    });
+
+                    const profile = await graphResponse.json();
+
+                    const profileDiv = document.getElementById("profileInfo");
+                    profileDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${profile.displayName}</p>
+                    <p><strong>Email:</strong> ${profile.mail || profile.userPrincipalName}</p>
+                    <p><strong>Job Title:</strong> ${profile.jobTitle || "N/A"}</p>
+                    <p><strong>Office Location:</strong> ${profile.officeLocation || "N/A"}</p>
+                    `;
+                } catch (error) {
+                    console.error("Error fetching profile:", error);
+                    document.getElementById("profileInfo").innerText = "Failed to load profile.";
+                }
+            }
+            showProfile();
+        </script>
+</body>
+
+</html>
