@@ -115,7 +115,6 @@
 
         // Interactive login to Azure AD
         function login() {
-            $(".auth-data").hide();
             microsoftTeams.app.initialize().then(() => {
                 microsoftTeams.authentication.authenticate({
                     url: window.location.origin + "/silent-start",
