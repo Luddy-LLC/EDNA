@@ -32,6 +32,8 @@ const msalGetToken = new Promise((resolve, reject) => {
             } else {
                 const account = msalInstance.getAllAccounts()[0];
 
+                document.getElementById('username').innerText = account;
+
                 const accessTokenRequest = {
                     scopes: ["User.Read", "User.ReadBasic.All"],
                     account: account,
@@ -49,9 +51,12 @@ const msalGetToken = new Promise((resolve, reject) => {
                             msalInstance.acquireTokenPopup(accessTokenRequest)
                                 .then((popupResponse) => {
                                     resolve(popupResponse.accessToken);
+                                    document.getElementById('other').innerText =  popupResponse.accessToken;
                                 })
                                 .catch((popupError) => {
                                     reject(popupError);
+                                    console.log(popupError);
+                                    document.getElementById('other').innerText =  popupError;
                                 });
                         } else {
                             // Use redirect if not in iframe
