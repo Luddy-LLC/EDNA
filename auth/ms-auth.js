@@ -23,8 +23,8 @@ const msalInstance = new msal.PublicClientApplication(msalConfig);
 
 const msalGetToken = new Promise((resolve, reject) => {
     msalInstance.initialize().then(async () => {
-        try{const redirectResponse = await msalInstance.handleRedirectPromise();}
-        catch{ document.getElementById('username').innerText = '27 - handleRedirectPromise() failed'; }
+        const redirectResponse = await msalInstance.handleRedirectPromise();
+        // catch{ document.getElementById('username').innerText = '27 - handleRedirectPromise() failed'; }
         try {
             if (redirectResponse !== null) {
                 let accessToken = redirectResponse.accessToken;
