@@ -13,8 +13,8 @@
 
 <body>
     <h1>Dashboard</h1>
-    <!-- <img msgraph graphrsc="users" graphendp="photo" graphvalue="me">
-    <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu"> -->
+    <img msgraph graphrsc="users" graphendp="photo" graphvalue="me">
+    <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu">
     <table loading>
         <tr>
             <th>Username</th>
@@ -29,6 +29,11 @@
             <td id="other"></td>
         </tr>
     </table>
+
+    <script>
+        const graph = new GraphAPI();
+        console.log(await graph.me())
+    </script>
 </body>
 
 </html>
