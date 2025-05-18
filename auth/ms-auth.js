@@ -8,9 +8,11 @@ microsoftTeams.app.initialize().then(() => {
     microsoftTeams.authentication.getAuthToken({
       successCallback: (token) => {
         console.log("SSO Token:", token);
+        document.getElementById('other').innerText = `"SSO Token: ${token}`;
       },
       failureCallback: (error) => {
         console.error("SSO failed, falling back to MSAL login", error);
+        document.getElementById('other').innerText = `"SSO failed: ${error}`;
       }
     });
   });
