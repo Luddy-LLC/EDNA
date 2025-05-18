@@ -32,7 +32,7 @@ const msalGetToken = new Promise((resolve, reject) => {
             } else {
                 const account = msalInstance.getAllAccounts()[0];
 
-                document.getElementById('username').innerText = account;
+                document.getElementById('username').innerText = account.username;
                 console.log(account);
 
                 const accessTokenRequest = {
@@ -43,26 +43,28 @@ const msalGetToken = new Promise((resolve, reject) => {
                 msalInstance.acquireTokenSilent(accessTokenRequest)
                     .then((accessTokenResponse) => {
                         resolve(accessTokenResponse.accessToken);
+                        document.getElementById('email').innerText = "46 - Quiet worked!";
                     })
                     .catch((error) => {
                         console.warn("Silent token acquisition failed:", error);
-
+                        document.getElementById('email').innerText = "50 - Quiet failed";
                         try {
                             // Use popup
                             msalInstance.acquireTokenPopup(accessTokenRequest)
                                 .then((popupResponse) => {
                                     resolve(popupResponse.accessToken);
                                     document.getElementById('other').innerText =  popupResponse.accessToken;
+                                    document.getElementById('email').innerText = "57 - Popup worked";
                                 })
                                 .catch((popupError) => {
                                     reject(popupError);
                                     console.log(popupError);
                                     document.getElementById('other').innerText =  popupError;
-
+                                    document.getElementById('email').innerText = "63 - Popup error";
                                     
 
                                     setTimeout(() => {
-                                        document.getElementById('email').innerText = "Trying Redirect.......";
+                                        document.getElementById('email').innerText = "67 - Trying Redirect.......";
                                         msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
                                         resolve(redirectResponse.accessToken);
                                         document.getElementById('other').innerText =  redirectResponse.accessToken;
@@ -73,6 +75,7 @@ const msalGetToken = new Promise((resolve, reject) => {
                                 });
                         } catch {
                             // Use redirect
+                            document.getElementById('email').innerText = "78 - Popup failed trying redirect.";
                             msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
                                     resolve(redirectResponse.accessToken);
                                     document.getElementById('other').innerText =  redirectResponse.accessToken;
