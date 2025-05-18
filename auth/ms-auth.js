@@ -55,15 +55,9 @@ const msalGetToken = new Promise((resolve, reject) => {
                     })
                     .catch((error) => {
                         debugLog(57, `Silent token acquisition failed: ${error}`);
-                        debugLog(58, `Trying redirect...`);
+                        
                         try {
-                            msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
-                                debugLog(62, `Redirect response: ${redirectResponse}`);
-                                resolve(redirectResponse.accessToken);
-                                debugLog(64, `Redirect token: ${redirectResponse.accessToken}`);
-                            })
-                        } catch (error) {
-                            debugLog(66, `Redirect token acquisition failed: ${error}`);
+                            // debugLog(66, `Redirect token acquisition failed: ${error}`);
                             debugLog(67, `Trying popup...`);
                             msalInstance.acquireTokenPopup(accessTokenRequest)
                                 .then((popupResponse) => {
@@ -85,6 +79,13 @@ const msalGetToken = new Promise((resolve, reject) => {
 
                                     // })
                                 });
+                        } catch (error) {
+                            debugLog(58, `Trying redirect...`);
+                            msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
+                                debugLog(62, `Redirect response: ${redirectResponse}`);
+                                resolve(redirectResponse.accessToken);
+                                debugLog(64, `Redirect token: ${redirectResponse.accessToken}`);
+                            })
                         }
                     });
             }
