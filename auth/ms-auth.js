@@ -1,100 +1,99 @@
 import { msalConfig } from './config.js';
+import * as microsoftTeams from "./msteams.js";
 
 const msalInstance = new msal.PublicClientApplication(msalConfig);
-var ul = document.getElementById('debug');
-function debugLog(line, string) {
-    var li = document.createElement("li");
-    li.appendChild(document.createTextNode(`LINE ${String(line)} : ${JSON.stringify(string)}`));
-    ul.appendChild(li);
-}
+// var ul = document.getElementById('debug');
+// function debugLog(line, string) {
+//     var li = document.createElement("li"); li.appendChild(document.createTextNode(`LINE ${String(line)} : ${JSON.stringify(string)}`)); ul.appendChild(li);
+// }
 
 
-let account = '';
-let redirectResponse = '';
+// microsoftTeams.app.initialize().then(() => { console.log("Teams SDK initialized"); });
 
-const msalGetToken = new Promise((resolve, reject) => {
-    msalInstance.initialize().then(async () => {
-        try { 
-            redirectResponse = await msalInstance.handleRedirectPromise(); 
-            debugLog(19, redirectResponse);
-        } catch (error) { 
-            debugLog(21, `redirectResponse failed with error: ${error}`);
-        }
+// let account = ''; let redirectResponse = '';
+
+// const msalGetToken = new Promise((resolve, reject) => {
+//     msalInstance.initialize().then(async () => {
+//         try {
+//             redirectResponse = await msalInstance.handleRedirectPromise();
+//             debugLog(19, redirectResponse);
+//         } catch (error) {
+//             debugLog(21, `redirectResponse failed with error: ${error}`);
+//         }
 
 
-        try {
-            
-            if (redirectResponse !== null) { //This handles the case that a redirect was performed and the page is being re-visited after the redirect.
-                let accessToken = redirectResponse.accessToken; 
-                resolve(accessToken);
-                debugLog(30, `redirectResponse has access token: ${accessToken}`);
-            } else { //This means a redirect was NOT just performed
-                debugLog(32, `A redirect was NOT just performed. Attempting to get token...`);
+//         try {
 
-                try {
-                    debugLog(35, `trying to get acounts`);
-                    account = msalInstance.getAllAccounts()[0];
-                    debugLog(37, `account: ${account.username}`);
-                    document.getElementById('username').innerText = account.username;
-                }
-                catch (error) {
-                    debugLog(41, `could not get account with error: ${error}`);
-                }
+//             if (redirectResponse !== null) { //This handles the case that a redirect was performed and the page is being re-visited after the redirect.
+//                 let accessToken = redirectResponse.accessToken;
+//                 resolve(accessToken);
+//                 debugLog(30, `redirectResponse has access token: ${accessToken}`);
+//             } else { //This means a redirect was NOT just performed
+//                 debugLog(32, `A redirect was NOT just performed. Attempting to get token...`);
 
-                const accessTokenRequest = {
-                    scopes: ["User.Read", "User.ReadBasic.All"],
-                    account: account,
-                };
+//                 try {
+//                     debugLog(35, `trying to get acounts`);
+//                     account = msalInstance.getAllAccounts()[0];
+//                     debugLog(37, `account: ${account.username}`);
+//                     document.getElementById('username').innerText = account.username;
+//                 }
+//                 catch (error) {
+//                     debugLog(41, `could not get account with error: ${error}`);
+//                 }
 
-                debugLog(49, `trying to get silent token`);
-                msalInstance.acquireTokenSilent(accessTokenRequest)
-                    .then((accessTokenResponse) => {
-                        debugLog(52, `accessTokenRequest ${accessTokenRequest === null ? 'is NULL' : 'has a value!'}`);
-                        resolve(accessTokenResponse.accessToken);
-                        debugLog(54, `silent token: ${accessTokenResponse.accessToken}`);
-                    })
-                    .catch((error) => {
-                        debugLog(57, `Silent token acquisition failed: ${error}`);
-                        
-                        try {
-                            // debugLog(66, `Redirect token acquisition failed: ${error}`);
-                            debugLog(67, `Trying popup...`);
-                            msalInstance.acquireTokenPopup(accessTokenRequest)
-                                .then((popupResponse) => {
-                                    debugLog(70, `popup response: ${popupResponse}`);
-                                    resolve(popupResponse.accessToken);
-                                    debugLog(72, `popup token: ${popupResponse.accessToken}`);
-                                })
-                                .catch((popupError) => {
-                                    debugLog(66, `popup token acquisition failed: ${popupError}`);
-                                    reject(popupError);
-  
-                                    // setTimeout(() => {
-                                    //     document.getElementById('email').innerText = "67 - Trying Redirect.......";
-                                    //     msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
-                                    //         resolve(redirectResponse.accessToken);
-                                    //         document.getElementById('other').innerText = redirectResponse.accessToken;
-                                    //         window.alert(redirectResponse.accessToken);
-                                    //     }, 3000);
+//                 const accessTokenRequest = {
+//                     scopes: ["User.Read", "User.ReadBasic.All"],
+//                     account: account,
+//                 };
 
-                                    // })
-                                });
-                        } catch (error) {
-                            debugLog(58, `Trying redirect...`);
-                            msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
-                                debugLog(62, `Redirect response: ${redirectResponse}`);
-                                resolve(redirectResponse.accessToken);
-                                debugLog(64, `Redirect token: ${redirectResponse.accessToken}`);
-                            })
-                        }
-                    });
-            }
-        } catch (error) {
-            document.getElementById('username').innerText = `89 - rejected: whole thing failed: ${error}`;
-            reject(error);
-        }
-    });
-});
+//                 debugLog(49, `trying to get silent token`);
+//                 msalInstance.acquireTokenSilent(accessTokenRequest)
+//                     .then((accessTokenResponse) => {
+//                         debugLog(52, `accessTokenRequest ${accessTokenRequest === null ? 'is NULL' : 'has a value!'}`);
+//                         resolve(accessTokenResponse.accessToken);
+//                         debugLog(54, `silent token: ${accessTokenResponse.accessToken}`);
+//                     })
+//                     .catch((error) => {
+//                         debugLog(57, `Silent token acquisition failed: ${error}`);
+//                         try {
+//                             debugLog(58, `Trying redirect...`);
+//                             msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
+//                                 debugLog(62, `Redirect response: ${redirectResponse}`);
+//                                 resolve(redirectResponse.accessToken);
+//                                 debugLog(64, `Redirect token: ${redirectResponse.accessToken}`);
+//                             })
+//                         } catch (error) {
+//                             debugLog(66, `Redirect token acquisition failed: ${error}`);
+//                             debugLog(67, `Trying popup...`);
+//                             msalInstance.acquireTokenPopup(accessTokenRequest)
+//                                 .then((popupResponse) => {
+//                                     debugLog(70, `popup response: ${popupResponse}`);
+//                                     resolve(popupResponse.accessToken);
+//                                     debugLog(72, `popup token: ${popupResponse.accessToken}`);
+//                                 })
+//                                 .catch((popupError) => {
+//                                     debugLog(66, `popup token acquisition failed: ${popupError}`);
+//                                     reject(popupError);
+
+//                                     // setTimeout(() => {
+//                                     //     document.getElementById('email').innerText = "67 - Trying Redirect.......";
+//                                     //     msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
+//                                     //         resolve(redirectResponse.accessToken);
+//                                     //         document.getElementById('other').innerText = redirectResponse.accessToken;
+//                                     //         window.alert(redirectResponse.accessToken);
+//                                     //     }, 3000);
+
+//                                     // })
+//                                 });
+//                         }
+//                     });
+//             }
+//         } catch (error) {
+//             document.getElementById('username').innerText = `89 - rejected: whole thing failed: ${error}`;
+//             reject(error);
+//         }
+//     });
+// });
 
 
 

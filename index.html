@@ -5,11 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDNA Dashboard</title>
-    <!-- <script src="auth/MicrosofTeams.min.js"></script> -->
+    <script src="auth/msteams.js"></script>
     <script src="auth/msal-browser.min.js"></script>
     <script type="module" src="./auth/ms-auth.js"></script>
     <script type="module" src="graph-components.js"></script>
-    <style> html,body {background: white} 
+    <style>
+        html,
+        body {
+            background: white
+        }
+
         li {
             border-bottom: 2px solid grey;
             padding-bottom: 20px;
@@ -40,12 +45,28 @@
     </table>
 
     <script type="module">
-        import {GraphAPI} from './auth/ms-auth.js'
+        import { GraphAPI } from './auth/ms-auth.js'
         document.getElementById('stuff').innerText = document.getElementsByTagName('body')[0].style.backgroundColor;
         document.getElementsByTagName('body')[0].style.backgroundColor = 'white';
         const graph = new GraphAPI();
         console.log(await graph.me());
     </script>
+
+
+    <script>
+        microsoftTeams.app.initialize().then(() => {
+            console.log("Teams SDK initialized via CDN");
+
+            // Optional: Get context
+            microsoftTeams.app.getContext().then((context) => {
+                console.log("App context:", context);
+            });
+
+        }).catch((error) => {
+            console.error("Initialization failed:", error);
+        });
+    </script>
+
 </body>
 
 </html>
