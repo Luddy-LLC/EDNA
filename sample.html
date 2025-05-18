@@ -14,19 +14,20 @@
     </p>
 
     <!-- Login button -->
-    <button id="btnLogin" onclick="login()" style="display: none">Login to Azure AD</button>
+    <button id="btnLogin">Login to Azure AD</button>
+    <button id="btnUserInto">Show User Info</button>
 
-    <p id="divError" style="display: none" class="auth-data"></p>
+    <p id="divError" class="auth-data"></p>
 
     <!-- Result -->
     <h2>Claims from id_token</h2>
-    <div id="divIdTokenError" style="display: none" class="auth-data"></div>
-    <div id="divIdTokenClaims" style="display: none" class="auth-data"></div>
-    <p id="divRawIdToken" style="display: none" class="auth-data"></p>
+    <div id="divIdTokenError" class="auth-data"></div>
+    <div id="divIdTokenClaims" class="auth-data"></div>
+    <p id="divRawIdToken" class="auth-data"></p>
 
     <h2>Profile from Microsoft Graph (via On-Behalf-Of flow)</h2>
-    <div id="divGraphProfileError" style="display: none" class="auth-data"></div>
-    <div id="divGraphProfile" style="display: none" class="auth-data"></div>
+    <div id="divGraphProfileError" class="auth-data"></div>
+    <div id="divGraphProfile" class="auth-data"></div>
     <!-- Logout button -->
     <br />
     <!-- <button id="btnLogout" onclick="logout()" style="display: none">Logout (Silent)</button> -->
@@ -167,12 +168,16 @@
             });
         }
 
+        document.querySelector('#btnLogin').addEventListener('click', login());
+
         // Show information about the logged-in user
         function showUserInformation(idToken) {
             document.querySelector("#divRawIdToken").innerText = idToken;
 
             // This demonstrates what an application can do with the id_token
             microsoftTeams.app.getContext().then((context) => {
+
+                console.log(idToken);
 
                 // $.ajax({
                 //     type: 'POST',
@@ -248,6 +253,8 @@
 
             });
         }
+
+        document.querySelector('#btnUserInto').addEventListener('click', showUserInformation());
 
         // Parse query parameters into key-value pairs
         function getQueryParameters() {
