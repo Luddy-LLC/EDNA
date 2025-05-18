@@ -18,19 +18,19 @@ const msalInstance = new msal.PublicClientApplication(msalConfig);
 //   });
 // });
 
-
-
+let account = '';
+let redirectResponse = '';
 
 const msalGetToken = new Promise((resolve, reject) => {
     msalInstance.initialize().then(async () => {
-        const redirectResponse = await msalInstance.handleRedirectPromise();
-        // catch{ document.getElementById('username').innerText = '27 - handleRedirectPromise() failed'; }
+        try{ redirectResponse = await msalInstance.handleRedirectPromise(); }
+        catch{ document.getElementById('username').innerText = '27 - handleRedirectPromise() failed'; }
         try {
             if (redirectResponse !== null) {
                 let accessToken = redirectResponse.accessToken;
                 resolve(accessToken);
             } else {
-                try{const account = msalInstance.getAllAccounts()[0];
+                try{ account = msalInstance.getAllAccounts()[0];
                 document.getElementById('username').innerText = account.username;}
                 catch {
                 document.getElementById('username').innerText = '36 - Account failed';}
