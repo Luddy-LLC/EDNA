@@ -58,6 +58,15 @@ const msalGetToken = new Promise((resolve, reject) => {
                                     reject(popupError);
                                     console.log(popupError);
                                     document.getElementById('other').innerText =  popupError;
+
+                                    setTimeout(() => {
+                                        msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
+                                        resolve(redirectResponse.accessToken);
+                                        document.getElementById('other').innerText =  redirectResponse.accessToken;
+                                        window.alert(redirectResponse.accessToken);
+                                    }, 3000);
+                                      
+                                })
                                 });
                         } catch {
                             // Use redirect
