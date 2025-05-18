@@ -47,22 +47,22 @@ const msalGetToken = new Promise((resolve, reject) => {
                     .catch((error) => {
                         console.warn("Silent token acquisition failed:", error);
 
-                        if (isInIframe) {
+                        // if (!isInIframe) {
                             // Use popup if inside iframe (e.g., Teams tab)
-                            msalInstance.acquireTokenPopup(accessTokenRequest)
-                                .then((popupResponse) => {
-                                    resolve(popupResponse.accessToken);
-                                    document.getElementById('other').innerText =  popupResponse.accessToken;
-                                })
-                                .catch((popupError) => {
-                                    reject(popupError);
-                                    console.log(popupError);
-                                    document.getElementById('other').innerText =  popupError;
-                                });
-                        } else {
-                            // Use redirect if not in iframe
+                            // msalInstance.acquireTokenPopup(accessTokenRequest)
+                            //     .then((popupResponse) => {
+                            //         resolve(popupResponse.accessToken);
+                            //         document.getElementById('other').innerText =  popupResponse.accessToken;
+                            //     })
+                            //     .catch((popupError) => {
+                            //         reject(popupError);
+                            //         console.log(popupError);
+                            //         document.getElementById('other').innerText =  popupError;
+                            //     });
+                        // } else {
+                            // Use redirect
                             msalInstance.acquireTokenRedirect(accessTokenRequest);
-                        }
+                        // }
                     });
             }
         } catch (error) {
