@@ -47,22 +47,27 @@ const msalGetToken = new Promise((resolve, reject) => {
                     .catch((error) => {
                         console.warn("Silent token acquisition failed:", error);
 
-                        // if (!isInIframe) {
-                            // Use popup if inside iframe (e.g., Teams tab)
-                            // msalInstance.acquireTokenPopup(accessTokenRequest)
-                            //     .then((popupResponse) => {
-                            //         resolve(popupResponse.accessToken);
-                            //         document.getElementById('other').innerText =  popupResponse.accessToken;
-                            //     })
-                            //     .catch((popupError) => {
-                            //         reject(popupError);
-                            //         console.log(popupError);
-                            //         document.getElementById('other').innerText =  popupError;
-                            //     });
-                        // } else {
+                        try {
+                            // Use popup
+                            msalInstance.acquireTokenPopup(accessTokenRequest)
+                                .then((popupResponse) => {
+                                    resolve(popupResponse.accessToken);
+                                    document.getElementById('other').innerText =  popupResponse.accessToken;
+                                })
+                                .catch((popupError) => {
+                                    reject(popupError);
+                                    console.log(popupError);
+                                    document.getElementById('other').innerText =  popupError;
+                                });
+                        } catch {
                             // Use redirect
-                            msalInstance.acquireTokenRedirect(accessTokenRequest);
-                        // }
+                            msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
+                                    resolve(redirectResponse.accessToken);
+                                    document.getElementById('other').innerText =  redirectResponse.accessToken;
+                                    window.alert(redirectResponse.accessToken);
+                                })
+
+                        }
                     });
             }
         } catch (error) {
