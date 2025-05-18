@@ -3,60 +3,67 @@ import { msalConfig } from './config.js';
 const msalInstance = new msal.PublicClientApplication(msalConfig);
 
 
-microsoftTeams.app.initialize().then(() => {
-  microsoftTeams.app.getContext().then(context => {
-    microsoftTeams.authentication.getAuthToken({
-      successCallback: (token) => {
-        console.log("SSO Token:", token);
-        document.getElementById('other').innerText = `"SSO Token: ${token}`;
-      },
-      failureCallback: (error) => {
-        console.error("SSO failed, falling back to MSAL login", error);
-        document.getElementById('other').innerText = `"SSO failed: ${error}`;
-      }
-    });
-  });
-});
-
-
-// const msalGetToken = new Promise((resolve, reject) => {
-//     msalInstance.initialize().then(async () => {
-//         const redirectResponse = await msalInstance.handleRedirectPromise();
-//         try {
-//             if (redirectResponse !== null) {
-
-//                 let accessToken = redirectResponse.accessToken;
-//                 resolve(accessToken);
-
-//             } else {
-//                 console.log(msalInstance.getAllAccounts());
-//                 const account = msalInstance.getAllAccounts()[0];
-
-//                 const accessTokenRequest = {
-//                     scopes: ["User.Read","User.ReadBasic.All"],
-//                     account: account,
-//                 };
-
-//                 msalInstance
-//                     .acquireTokenSilent(accessTokenRequest)
-//                     .then(function (accessTokenResponse) {
-//                         let accessToken = accessTokenResponse.accessToken;
-//                         resolve(accessToken);
-//                     })
-//                     .catch(function (error) {
-//                         console.log(error);
-//                         if (error) { //instanceof InteractionRequiredAuthError
-//                             msalInstance.acquireTokenRedirect(accessTokenRequest);
-//                         }
-//                     });
-//             }
-//         } catch (error) {
-//             reject(error);
-//         }
-
+// microsoftTeams.app.initialize().then(() => {
+//   microsoftTeams.app.getContext().then(context => {
+//     microsoftTeams.authentication.getAuthToken({
+//       successCallback: (token) => {
+//         console.log("SSO Token:", token);
+//         document.getElementById('other').innerText = `"SSO Token: ${token}`;
+//       },
+//       failureCallback: (error) => {
+//         console.error("SSO failed, falling back to MSAL login", error);
+//         document.getElementById('other').innerText = `"SSO failed: ${error}`;
+//       }
 //     });
-
+//   });
 // });
+
+
+const isInIframe = window.self !== window.top;
+
+const msalGetToken = new Promise((resolve, reject) => {
+    msalInstance.initialize().then(async () => {
+        const redirectResponse = await msalInstance.handleRedirectPromise();
+
+        try {
+            if (redirectResponse !== null) {
+                let accessToken = redirectResponse.accessToken;
+                resolve(accessToken);
+            } else {
+                const account = msalInstance.getAllAccounts()[0];
+
+                const accessTokenRequest = {
+                    scopes: ["User.Read", "User.ReadBasic.All"],
+                    account: account,
+                };
+
+                msalInstance.acquireTokenSilent(accessTokenRequest)
+                    .then((accessTokenResponse) => {
+                        resolve(accessTokenResponse.accessToken);
+                    })
+                    .catch((error) => {
+                        console.warn("Silent token acquisition failed:", error);
+
+                        if (isInIframe) {
+                            // Use popup if inside iframe (e.g., Teams tab)
+                            msalInstance.acquireTokenPopup(accessTokenRequest)
+                                .then((popupResponse) => {
+                                    resolve(popupResponse.accessToken);
+                                })
+                                .catch((popupError) => {
+                                    reject(popupError);
+                                });
+                        } else {
+                            // Use redirect if not in iframe
+                            msalInstance.acquireTokenRedirect(accessTokenRequest);
+                        }
+                    });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+});
 
 export class GraphAPI {
 
@@ -139,8 +146,8 @@ export class GraphAPI {
     
 }  
 
-// document.querySelectorAll('[login]').forEach((el) => {
-//     el.addEventListener("click", () => {
-//         msalGetToken();
-//     })
-// })
+document.querySelectorAll('[login]').forEach((el) => {
+    el.addEventListener("click", () => {
+        msalGetToken();
+    })
+})
