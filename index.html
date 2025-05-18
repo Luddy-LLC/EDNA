@@ -16,6 +16,7 @@
     <h1>Dashboard</h1>
     <img msgraph graphrsc="users" graphendp="photo" graphvalue="me">
     <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu">
+    <p id="stuff"></p>
     <table loading>
         <tr>
             <th>Username</th>
@@ -32,6 +33,8 @@
     </table>
 
     <script>
+        document.getElementById('stuff').innerText = document.getElementsByTagName('body')[0].style.backgroundColor;
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'white';
         const graph = new GraphAPI();
         console.log(await graph.me());
     </script>
