@@ -59,13 +59,16 @@ const msalGetToken = new Promise((resolve, reject) => {
                                     console.log(popupError);
                                     document.getElementById('other').innerText =  popupError;
 
+                                    
+
                                     setTimeout(() => {
+                                        document.getElementById('email').innerText = "Trying Redirect.......";
                                         msalInstance.acquireTokenRedirect(accessTokenRequest).then((redirectResponse) => {
                                         resolve(redirectResponse.accessToken);
                                         document.getElementById('other').innerText =  redirectResponse.accessToken;
                                         window.alert(redirectResponse.accessToken);
                                     }, 3000);
-                                      
+
                                 })
                                 });
                         } catch {
