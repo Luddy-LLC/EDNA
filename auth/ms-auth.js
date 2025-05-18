@@ -33,6 +33,7 @@ const msalGetToken = new Promise((resolve, reject) => {
                 const account = msalInstance.getAllAccounts()[0];
 
                 document.getElementById('username').innerText = account;
+                console.log(account);
 
                 const accessTokenRequest = {
                     scopes: ["User.Read", "User.ReadBasic.All"],
