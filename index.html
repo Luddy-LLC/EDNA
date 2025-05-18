@@ -5,18 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDNA Dashboard</title>
-    <script src="auth/MicrosofTeams.min.js"></script>
+    <!-- <script src="auth/MicrosofTeams.min.js"></script> -->
     <script src="auth/msal-browser.min.js"></script>
     <script type="module" src="./auth/ms-auth.js"></script>
     <script type="module" src="graph-components.js"></script>
-    <style> html,body {background: white} </style>
+    <style> html,body {background: white} 
+        li {
+            border-bottom: 2px solid grey;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Dashboard</h1>
-    <img msgraph graphrsc="users" graphendp="photo" graphvalue="me">
-    <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu">
+    <img msgraph graphrsc="users" graphendp="photo" graphvalue="me" alt="">
+    <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu" alt="">
     <p id="stuff"></p>
+    <ul id="debug"></ul>
     <table loading>
         <tr>
             <th>Username</th>
@@ -32,7 +39,8 @@
         </tr>
     </table>
 
-    <script>
+    <script type="module">
+        import {GraphAPI} from './auth/ms-auth.js'
         document.getElementById('stuff').innerText = document.getElementsByTagName('body')[0].style.backgroundColor;
         document.getElementsByTagName('body')[0].style.backgroundColor = 'white';
         const graph = new GraphAPI();
