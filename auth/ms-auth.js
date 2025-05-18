@@ -19,21 +19,21 @@ const msalInstance = new msal.PublicClientApplication(msalConfig);
 // });
 
 
-const isInIframe = window.self !== window.top;
+
 
 const msalGetToken = new Promise((resolve, reject) => {
     msalInstance.initialize().then(async () => {
-        const redirectResponse = await msalInstance.handleRedirectPromise();
-
+        try{const redirectResponse = await msalInstance.handleRedirectPromise();}
+        catch{ document.getElementById('username').innerText = '27 - handleRedirectPromise() failed'; }
         try {
             if (redirectResponse !== null) {
                 let accessToken = redirectResponse.accessToken;
                 resolve(accessToken);
             } else {
-                const account = msalInstance.getAllAccounts()[0];
-
-                document.getElementById('username').innerText = account.username;
-                console.log(account);
+                try{const account = msalInstance.getAllAccounts()[0];
+                document.getElementById('username').innerText = account.username;}
+                catch {
+                document.getElementById('username').innerText = '36 - Account failed';}
 
                 const accessTokenRequest = {
                     scopes: ["User.Read", "User.ReadBasic.All"],
@@ -86,6 +86,7 @@ const msalGetToken = new Promise((resolve, reject) => {
                     });
             }
         } catch (error) {
+            document.getElementById('username').innerText = `89 - rejected: whole thing failed: ${error}`;
             reject(error);
         }
     });
