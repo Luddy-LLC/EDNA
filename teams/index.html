@@ -65,6 +65,9 @@
         };
         const msalInstance = new msal.PublicClientApplication(msalConfig);
 
+        microsoftTeams.app.enableLogging({ level: "verbose" });
+        
+
         microsoftTeams.app.initialize().then(() => {
             microsoftTeams.app.getContext().then((context) => {
                 upn = context.user.userPrincipalName;

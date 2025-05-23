@@ -1,4 +1,4 @@
-import { GraphAPI } from './auth/ms-auth.js';
+import { GraphAPI } from './auth/graph-api.js';
 const graph = new GraphAPI();
 
 // document.querySelectorAll([msgraph]).forEach((el) => {
