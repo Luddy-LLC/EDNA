@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="form-components.js"></script>
+</head>
+<body>
+    <div id="form"></div>
+
+    <script>
+        // https://uxdesign.cc/text-fields-forms-design-ui-components-series-2b32b2beebd0
+        const formJSON = {
+            "title" : "Form Title",
+            "description" : "This is a description of the form",
+            "action" : "",
+            "memory" : "", //COOKIEMONSTER remember changes so a visitor can pick up where they left off
+            "capture" :  { //
+                "browser" : ["userAgent", "language", "etc"], // properties from navigator.xyz
+                "analytics" : ["timeSpentAll", "timeSpentPage", "questionsAnsweredBeforeAbandon"], //https://css-tricks.com/send-an-http-request-on-page-exit/
+            },
+            "hasCoverPage" : "", //whether to have a page 0 with just the title/description before page 1 (which still has title and description, ofc)
+            "pageStyle" : "", //are the pages tabs, next buttons, etc.
+            "pages" : [
+                {
+                    "title" : "Page 1",
+                    "description" : "Description for Page 1",
+                    "layout" : [ //lowkey can this just be CSS grid syntax?
+                                //   grid-template:
+                                //      [header-left] "head head" 30px [header-right]
+                                //      [main-left] "nav  main" 1fr [main-right]
+                                //      [footer-left] "nav  foot" 30px [footer-right]
+                                //      / 120px 1fr;
+                                // bottom line represents the width of the columns: 120px for the first and 1fr for the second
+                                // then each of the fields must have a grid-area:"" property that assigns them a name
+                        [],
+                        [],
+                        []
+                    ]
+                },
+                                {
+                    "title" : "Page 2",
+                    "description" : "Description for Page 2",
+                    "layout" : [
+                        [],
+                        [],
+                        []
+                    ]
+                }
+            ],
+            "elements" : [
+                {
+                    "type" : "",
+                    // Fields:  short text, long text, toggle, single choice (radio, dropdown), multichoice (check, dropdown, tags), 
+                    //          data table, matrix, likert, upload, capture (mobile camera), date, time, date/time, rank items (tier list?), 
+                    //          colour, map, signature, constant sum (all things have to add up to...)
+                    //          manual calendar, calendar sync (Google Cal, Apple Cal, Outlook Cal)
+                    // Regex Types: email, phone, address, location (maps), url, number input, password/hidden, 
+                    //          credit card, pronouns, country, language, currency, gender (auto-inclusive), sex (auto-inclusive)
+                    // UI: tip, image, paragraph, divider, video, pdf, 
+                    "label" : "",
+                    "placeholder" : "",
+                    "hint": {
+                        "enabled" : true, 
+                        "type" : "", //icon only eg. (i) icon, button with text and icon, just a subheading label
+                        "label" : "", //both visual purposes and as aria-label. should accept rich HTML
+                        "href" : "",
+                        "modal" : "", //popovertarget
+                        "icon" : { //aria-labelled-by the label, even if invisible
+                            "name" : "",
+                            "position" : ""
+                        }
+                    },
+                    "required" : true,
+                    "defaultValue" : "", //type here will most certainly rely on el. `type`
+                    "awaitAutofill" : { //disable field and show a loading indicator until the value changes
+                        "enabled" : true,
+                        "timeout" : "", // (optional) how long to wait until we give up on autofill
+                        "fallback" : "" // (if timeout) the value to use if things go awry
+                    },
+                    "depend" : {
+                        "element" : "",  //will display when this elmt matches dependOperand's logic
+                        "logic" : "" //regex
+                    },
+                    "validation" : {
+                        "type" : "", //support regex and shorcuts to regular suspects like email/phone/etc.
+                        "logic" : "", //regex
+                        "label" : "" // message to display if validation isn't met
+                    }, 
+                    "options" : [ //for fields with multiple options
+                        {
+                            "label" : "",
+                            "value" : "",
+                            "icon" : {
+                                "name" : "",
+                                "position" : ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+
+        function renderForm(formData, autofillData) {
+            const space = document.getElementById('form');
+            space.innerHTML = '<r-form json="formJSON"></r-form>';
+            const formElement = document.querySelector('r-form');
+            if (formElement) {
+                formElement.data = formData;
+            }
+        }
+
+        renderForm(formJSON,{});
+    </script>
+</body>
+</html>

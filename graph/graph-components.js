@@ -1,4 +1,4 @@
-import { GraphAPI } from './auth/graph-api.js';
+import { GraphAPI } from './graph-api.js';
 const graph = new GraphAPI();
 
 // document.querySelectorAll([msgraph]).forEach((el) => {
@@ -6,15 +6,13 @@ const graph = new GraphAPI();
 
 document.querySelectorAll('[msgraph][graphrsc="users"][graphendp="photo"][graphvalue]').forEach(async (el) => {
     const user = el.getAttribute('graphvalue');
-    console.log(user);
+    
     if (user === "me") {
-        console.log('there me!')
-         const photoUrl = await graph.myPhoto();
-         el.src = photoUrl;
-        console.log(photoUrl);
+        const photoUrl = await graph.myPhoto();
+        el.src = photoUrl;
+
     } else {
         const photoUrl = await graph.userPhoto(user);
         el.src = photoUrl;
-        console.log(photoUrl);
     }
 });

@@ -6,29 +6,410 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDNA Dashboard</title>
     <script src="auth/msal-browser.min.js"></script>
-    <script type="module" src="graph-components.js"></script>
+    <script type="module" src="fluent/web-components.min.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 
-<body>
-    <h1>Dashboard</h1>
-    <img msgraph graphrsc="users" graphendp="photo" graphvalue="me" alt="">
-    <img msgraph graphrsc="users" graphendp="photo" graphvalue="ronmonga@iu.edu" alt="">
-    <p id="stuff"></p>
-    <ul id="debug"></ul>
-    <table loading>
-        <tr>
-            <th>Username</th>
-            <td id="username"></td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td id="email"></td>
-        </tr>
-        <tr>
-            <th>Other</th>
-            <td id="other"></td>
-        </tr>
-    </table>
+<body r-style="fluent2" style="--density: 1;">
+
+    <dev-row>
+        <button class="r-button" popovertarget="example-menu">Toggle Menu</button>
+        <r-menu role="menu" popover id="example-menu">
+            <menu-item role="menuitem">New</menu-item>
+            <menu-item role="menuitem">New Window</menu-item>
+            <menu-item role="menuitem">Open File</menu-item>
+            <menu-item role="menuitem">Open Folder</menu-item>
+        </r-menu>
+    </dev-row>
+
+    <dev-row>
+        <r-input varient="icon" required>
+            <label for="test-text-input">Example Field</label>
+            <svg fill="currentColor" class="___12fm75w f1w7gpdv fez10in fg4l7m0" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z" fill="currentColor"></path></svg>
+            <input type="text" id="test-text-input" required>
+            <validation-message varient="success">
+                <svg fill="currentColor" class="___12fm75w f1w7gpdv fez10in fg4l7m0" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M1 6a5 5 0 1 1 10 0A5 5 0 0 1 1 6Zm7.35-.9a.5.5 0 1 0-.7-.7L5.5 6.54 4.35 5.4a.5.5 0 1 0-.7.7l1.5 1.5c.2.2.5.2.7 0l2.5-2.5Z" fill="currentColor"></path></svg>
+                <span>This is a success message!</span>
+            </validation-message>
+        </r-input>
+
+        <r-input varient="danger" required>
+            <label for="test-text-input">Error state</label>
+            <input type="text" id="test-text-input" required value="Uh, oh.">
+            <validation-message varient="danger">
+                <svg fill="currentColor" class="___12fm75w f1w7gpdv fez10in fg4l7m0" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 11A5 5 0 1 0 6 1a5 5 0 0 0 0 10Zm-.75-2.75a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm.26-4.84a.5.5 0 0 1 .98 0l.01.09v2.59a.5.5 0 0 1-1 0V3.41Z" fill="currentColor"></path></svg>
+                <span>This is an error message.</span>
+            </validation-message>
+        </r-input>
+
+        <r-input disabled>
+            <label for="test-text-input">Disabled Field</label>
+            <input type="text" id="test-text-input" disabled value="Can't touch this.">
+            <validation-message>
+                <span>This field is disabled.</span>
+            </validation-message>
+        </r-input>
+    </dev-row>
+
+
+    <!-- TODO: Dropdown  -->
+     <!-- https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select -->
+
+
+    <dev-row>
+        <button popovertarget="drawer-example" class="r-button">Open Aside</button>
+
+        <r-drawer>
+            <dialog id="drawer-example" popover>
+                <drawer-header>
+                    <h2 id="dialog-title-130">Overlay Drawer</h2>
+                    <div>
+                        <button aria-label="Close" class="r-button" varient="icon transparent" popovertarget="drawer-example" popovertargetaction="hide">
+                            <span>
+                                <svg fill="currentColor" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m4.4 4.55.07-.08a.75.75 0 0 1 .98-.07l.08.07L12 10.94l6.47-6.47a.75.75 0 1 1 1.06 1.06L13.06 12l6.47 6.47c.27.27.3.68.07.98l-.07.08a.75.75 0 0 1-.98.07l-.08-.07L12 13.06l-6.47 6.47a.75.75 0 0 1-1.06-1.06L10.94 12 4.47 5.53a.75.75 0 0 1-.07-.98l.07-.08-.07.08Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </drawer-header>
+                <drawer-body>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Nisl pretium fusce id velit ut tortor. Leo vel fringilla est
+                        ullamcorper. Eget est lorem ipsum dolor sit amet consectetur adipiscing elit. In mollis nunc sed
+                        id semper risus in hendrerit gravida. Ullamcorper sit amet risus nullam eget felis eget. Dolor
+                        sed viverra ipsum nunc aliquet bibendum. Facilisi morbi tempus iaculis urna id volutpat. Porta
+                        non pulvinar neque laoreet suspendisse. Nunc id cursus metus aliquam eleifend mi in. A iaculis
+                        at erat pellentesque adipiscing commodo. Proin nibh nisl condimentum id. In hac habitasse platea
+                        dictumst vestibulum rhoncus est. Non tellus orci ac auctor augue mauris augue neque. Enim nulla
+                        aliquet porttitor lacus luctus accumsan tortor. Nascetur ridiculus mus mauris vitae ultricies
+                        leo integer. Ullamcorper eget nulla facilisi etiam dignissim. Leo in vitae turpis massa sed
+                        elementum tempus egestas sed.</p>
+                </drawer-body>
+                <drawer-footer>
+                    <r-button varient="primary">Do Something</r-button>
+                    <button class="r-button" popovertarget="drawer-example" popovertargetaction="hide">Close</button>
+                </drawer-footer>
+            </dialog>
+        </r-drawer>
+    </dev-row>
+
+    <!-- TODO: Colour Picker, Combobox, Datagrid -->
+
+    <r-divider>
+        <hr>
+    </r-divider>
+
+
+    <r-divider>
+        <hr aria-label="Onwards and Upwards!">
+    </r-divider>
+
+    <dev-row>
+        <button popovertarget="modal-example" class="r-button">
+            Open Dialogue
+        </button>
+
+        <r-modal>
+            <dialog id="modal-example" popover>
+                <modal-header>
+                    <h2>Dialogue Title</h2>
+                </modal-header>
+                <modal-body>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Nisl pretium fusce id velit ut tortor. Leo vel fringilla est
+                        ullamcorper. Eget est lorem ipsum dolor sit amet consectetur adipiscing elit. In mollis nunc sed
+                        id semper risus in hendrerit gravida. Ullamcorper sit amet risus nullam eget felis eget. Dolor
+                        sed viverra ipsum nunc aliquet bibendum. Facilisi morbi tempus iaculis urna id volutpat. Porta
+                        non pulvinar neque laoreet suspendisse. Nunc id cursus metus aliquam eleifend mi in. A iaculis
+                        at erat pellentesque adipiscing commodo. Proin nibh nisl condimentum id. In hac habitasse platea
+                        dictumst vestibulum rhoncus est. Non tellus orci ac auctor augue mauris augue neque. Enim nulla
+                        aliquet porttitor lacus luctus accumsan tortor. Nascetur ridiculus mus mauris vitae ultricies
+                        leo integer. Ullamcorper eget nulla facilisi etiam dignissim. Leo in vitae turpis massa sed
+                        elementum tempus egestas sed.</p>
+                </modal-body>
+                <modal-footer>
+                    <r-button varient="primary">Do Something</r-button>
+                    <button class="r-button" popovertarget="modal-example" popovertargetaction="hide">Close</button>
+                </modal-footer>
+            </dialog>
+        </r-modal>
+
+    </dev-row>
+
+
+
+
+    <dev-row>
+        <r-checkbox>
+            <label for="checkbox-name">
+                <input type="checkbox" id="checkbox-name" checked="">
+                Checked
+            </label>
+        </r-checkbox>
+        <r-checkbox aria-disabled="true">
+            <label for="checkbox-2">
+                <input type="checkbox" id="checkbox-2" aria-disabled="true">
+                Checked
+            </label>
+        </r-checkbox>
+    </dev-row>
+
+    <dev-row>
+        <r-card>
+            <card-header>
+                <img src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
+                    alt="Elvia Atkins avatar picture"></div>
+                <div>
+                    <p><b>Elvia Atkins</b> mentioned you</p>
+                    <small>5h ago · About us - Overview</small>
+                </div>
+            </card-header>
+            <card-body>
+                <p>Donut chocolate bar oat cake. Dragée tiramisu lollipop bear claw. Marshmallow pastry jujubes toffee
+                    sugar plum.</p>
+            </card-body>
+            <card-footer>
+                <r-button varient="primary">Reply</r-button>
+                <r-button>Share</r-button>
+            </card-footer>
+        </r-card>
+    </dev-row>
+
+    <dev-row>
+        <r-loading>
+            <span></span>
+        </r-loading>
+
+        <r-button varient="compound">
+            <svg fill="currentColor" aria-hidden="true" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+                    fill="currentColor"></path>
+            </svg>
+            <div>
+                <p>Compound Button</p>
+                <small>This is a subtitle</small>
+            </div>
+        </r-button>
+    </dev-row>
+
+    <dev-row>
+
+        <r-button varient="primary">Example</r-button>
+        <r-button varient="outline">Example</r-button>
+        <r-button varient="transparent">Example</r-button>
+    </dev-row>
+
+    <dev-row>
+        <r-button varient="icon">
+            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+                    fill="currentColor"></path>
+            </svg>
+        </r-button>
+
+        <!-- Not interactable, not focusable -->
+        <r-button disabled>
+            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+                    fill="currentColor"></path>
+            </svg>
+            Open Calendar
+        </r-button>
+
+        <!-- Annouces itself as disabled, but is still focusable -->
+        <!-- Be sure that the element doesn't actually do anything when interacted with -->
+        <r-button aria-disabled="true">
+            Open Calendar
+            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+                    fill="currentColor"></path>
+            </svg>
+        </r-button>
+
+        <r-button loading varient="icon">
+            <r-loading><span></span></r-loading>
+        </r-button>
+        <r-button loading>
+            <r-loading><span></span></r-loading>
+            Submitting</r-button>
+
+    </dev-row>
+
+    <dev-row>
+        <r-breadcrumb>
+            <nav aria-label="Breadcrumb default example">
+                <ol role="list">
+                    <li>
+                        <button href="https://www.bing.com/"
+                            class="fui-Button r1alrhcs fui-BreadcrumbButton ___1bpi9s4 fhovq9v f1p3nwhy f11589ue f1q5o8ev f1pdflbu fkfq4zb f1t94bn6 f1s2uweq fr80ssc f1ukrpxl fecsdlb fnwyq0v ft1hn21 fuxngvv fy5bs14 fsv2rcd f1h0usnq fs4ktlq f16h9ulv fx2bmrt f1omzyqd f1dfjoow f1j98vj9 fj8yq94 f4xjyn1 f1et0tmh f9ddjv3 f1wi8ngl f1d2rq10 fk6fouc fkhj508 figsok6 f1i3iumi f1r1wyb6 f18p0k4z fv6wr3j">Item
+                            1</button>
+                    </li>
+                    <li>
+                        <a href="https://www.bing.com/">
+                            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"
+                                    fill="currentColor"></path>
+                            </svg>
+                            Item 2
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.bing.com/">Item3</a>
+                    </li>
+                    <li>
+                        <a aria-current="page" aria-disabled="true">Item 4</a>
+                    </li>
+                </ol>
+            </nav>
+        </r-breadcrumb>
+
+        <!-- <r-breadcrumb>
+            <breadcrumb-item>Item 1</breadcrumb-item>
+            <breadcrumb-item>
+                <svg class="fui-Icon-regular ___12fm75w f1w7gpdv fez10in fg4l7m0" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 3A2.5 2.5 0 0 1 17 5.5v9a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 3 14.5v-9A2.5 2.5 0 0 1 5.5 3h9Zm0 1h-9C4.67 4 4 4.67 4 5.5v9c0 .83.67 1.5 1.5 1.5h9c.83 0 1.5-.67 1.5-1.5v-9c0-.83-.67-1.5-1.5-1.5ZM7 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2ZM7 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z" fill="currentColor"></path></svg>
+                Item 2
+            </breadcrumb-item>
+        </r-breadcrumb> -->
+
+
+    </dev-row>
+
+
+
+    <dev-row>
+        <r-badge></r-badge>
+        <r-badge>5</r-badge>
+        <r-badge varient="ghost">5</r-badge>
+        <r-badge varient="ghost">999+</r-badge>
+        <r-badge varient="outline">
+            <svg fill="currentColor" class="___12fm75w f1w7gpdv fez10in fg4l7m0" aria-hidden="true" width="1em"
+                height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M4.5 4h1.59c.2.58.76 1 1.41 1h3c.65 0 1.2-.42 1.41-1h1.59c.28 0 .5.22.5.5v1a.5.5 0 0 0 1 0v-1c0-.83-.67-1.5-1.5-1.5h-1.59c-.2-.58-.76-1-1.41-1h-3c-.65 0-1.2.42-1.41 1H4.5C3.67 3 3 3.67 3 4.5v12c0 .83.67 1.5 1.5 1.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 1-.5-.5v-12c0-.28.22-.5.5-.5Zm3 0a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3Zm3 3C9.67 7 9 7.67 9 8.5v8c0 .83.67 1.5 1.5 1.5h5c.83 0 1.5-.67 1.5-1.5v-8c0-.83-.67-1.5-1.5-1.5h-5ZM10 8.5c0-.28.22-.5.5-.5h5c.28 0 .5.22.5.5v8a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-8Z"
+                    fill="currentColor"></path>
+            </svg>
+            Pasted
+        </r-badge>
+        <r-badge varient="tint" palette="colorPaletteRed">999+</r-badge>
+
+    </dev-row>
+
+    <dev-row>
+        <r-avatar varient="image" role="img" aria-label="Ashley McCarthy">
+            <img alt="" role="presentation" aria-hidden="true"
+                src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
+                class="fui-Avatar__image r136dc0n ___1d63l1f f11d4kpn f18f03hv">
+            <r-badge varient="presence do-not-disturb">
+                <svg fill="currentColor" aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10ZM3.5 4.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Z"
+                        fill="currentColor"></path>
+                </svg>
+            </r-badge>
+        </r-avatar>
+    </dev-row>
+
+
+    <dev-row>
+        <r-avatar-group varient="spread">
+            <r-avatar varient="monogram" role="img" aria-label="Ashley McCarthy">
+                <span>AM</span>
+                <r-badge varient="presence available">
+                    <svg fill="currentColor" aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10Zm2.1-5.9L4.85 6.35a.5.5 0 0 1-.7 0l-1-1a.5.5 0 0 1 .7-.7l.65.64 1.9-1.9a.5.5 0 0 1 .7.71Z"
+                            fill="currentColor"></path>
+                    </svg>
+                </r-badge>
+            </r-avatar>
+
+            <r-avatar varient="image" role="img" aria-label="Ashley McCarthy">
+                <img alt="" role="presentation" aria-hidden="true"
+                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
+                    class="fui-Avatar__image r136dc0n ___1d63l1f f11d4kpn f18f03hv">
+                <r-badge varient="presence do-not-disturb">
+                    <svg fill="currentColor" aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10ZM3.5 4.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Z"
+                            fill="currentColor"></path>
+                    </svg>
+                </r-badge>
+            </r-avatar>
+            <button type="button" data-tabster="{&quot;restorer&quot;:{&quot;type&quot;:1}}" aria-expanded="false"
+                aria-label="View more people.">+7</button>
+        </r-avatar-group>
+
+
+
+        <r-avatar-group varient="stack">
+            <r-avatar varient="monogram" role="img" aria-label="Ashley McCarthy">
+                <span>AM</span>
+            </r-avatar>
+
+            <r-avatar varient="image" role="img" aria-label="Ashley McCarthy">
+                <img alt="" role="presentation" aria-hidden="true"
+                    src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg"
+                    class="fui-Avatar__image r136dc0n ___1d63l1f f11d4kpn f18f03hv">
+            </r-avatar>
+            <button type="button"
+                class="fui-AvatarGroupPopover__triggerButton ___sz8wkc0 f1l333zn f1szoe96 f1d2rq10 ftuwxu6 f10pi13n fi64zpg f4d9j23 f122n59 f19n0e5 fxugw4r fj3muxo f1akhkt f1aperda f1lxtadh f44lkw9 fzkkow9 fcdblym fg706s2 fjik90z f1mk8lai fw33nwi f1ptkjjm f15j0dln fmzzjfk f1j9b7x8 f1nev41a feu1g3u f1knas48 fvcxoqz f1ub3y4t f1xlaoq0 f1m52nbi f1g4hkjv fb40n2d fvs00aa f1assf6x fumykes f4ruux4 f192inf7 f5tn483 f1vxd6vx f1ojsxk5 fk6fouc fkhj508 fl43uef f1i3iumi"
+                data-tabster="{&quot;restorer&quot;:{&quot;type&quot;:1}}" aria-expanded="false"
+                aria-label="View more people.">+7</button>
+        </r-avatar-group>
+    </dev-row>
+
+    <dev-row>
+        <r-accordion>
+            <details>
+                <summary>Accordion Header 1</summary>
+                Open and close the element to toggle this content.
+            </details>
+            <details>
+                <summary>Accordion Header 2</summary>
+                Open and close the element to toggle this content.
+            </details>
+
+            <!-- 
+        <accordion-item> 
+            <accordion-title>Toggle content</accordion-title>
+            Open and close the element to toggle this content.
+        </accordion-item>
+        -->
+        </r-accordion>
+
+    </dev-row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <script type="module">
+        import { GraphAPI } from './graph/graph-api.js';
+        const graph = new GraphAPI();
+        console.log(await graph.profile('ronmonga@iu.edu', 'mail'));
+    </script> -->
 
 </body>
 

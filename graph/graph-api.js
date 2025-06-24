@@ -1,4 +1,4 @@
-import { msalGetToken } from './ms-auth.js';
+import { msalGetToken } from '../auth/ms-auth.js';
 
 export class GraphAPI {
 
@@ -41,7 +41,6 @@ export class GraphAPI {
 
         }
 
-
     }
 
 
@@ -73,12 +72,17 @@ export class GraphAPI {
         }
     }
 
-    async me() { return await this.get('me'); }
+    async me(dataPart) {
+        return dataPart ? this.get("me").then(r => r[dataPart]) : await this.get("me");
+    }
 
     async myPhoto() { return URL.createObjectURL(await this.get('me/photo/$value', 'blob')); }
 
-    async userPhoto(upn) { return URL.createObjectURL(await this.get(`users/${upn}/photo/$value`, 'blob')); }
+    async profile(upn, dataPart) {
+        return dataPart ? this.get(`users/${upn}`).then(r => r[dataPart]) : await this.get(`users/${upn}`);
+    }
 
+    async profilePhoto(upn) { return URL.createObjectURL(await this.get(`users/${upn}/photo/$value`, 'blob')); }
 
 }
 

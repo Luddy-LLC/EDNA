@@ -4,7 +4,7 @@ const msalInstance = new msal.PublicClientApplication(msalConfig);
 
 // scopes: ["User.Read", "User.ReadBasic.All"],
 
-const msalGetToken = (authScopes) => new Promise((resolve, reject) => {
+export const msalGetToken = (authScopes) => new Promise((resolve, reject) => {
     msalInstance.initialize().then(async () => {
         try {
             const redirectResponse = await msalInstance.handleRedirectPromise();

@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="auth/MicrosofTeams.min.js"></script>
-    <script src="auth/msal-browser.min.js"></script>
+    <link rel="stylesheet" href="/styles/style.css">
+    <script src="./auth/msal-browser.min.js"></script>
     <script type="module" src="./auth/ms-auth.js"></script>
 </head>
 
@@ -20,38 +19,6 @@
         <div id="profileInfo"></div>
         <a href="index.html">Back to Home</a>
 
-
-        <script>
-
-            async function showProfile(account) {
-                try {
-                    const tokenResponse = await msalInstance.acquireTokenSilent({
-                        scopes: ["User.Read"],
-                        account: account
-                    });
-
-                    const graphResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
-                        headers: {
-                            Authorization: `Bearer ${tokenResponse.accessToken}`
-                        }
-                    });
-
-                    const profile = await graphResponse.json();
-
-                    const profileDiv = document.getElementById("profileInfo");
-                    profileDiv.innerHTML = `
-                    <p><strong>Name:</strong> ${profile.displayName}</p>
-                    <p><strong>Email:</strong> ${profile.mail || profile.userPrincipalName}</p>
-                    <p><strong>Job Title:</strong> ${profile.jobTitle || "N/A"}</p>
-                    <p><strong>Office Location:</strong> ${profile.officeLocation || "N/A"}</p>
-                    `;
-                } catch (error) {
-                    console.error("Error fetching profile:", error);
-                    document.getElementById("profileInfo").innerText = "Failed to load profile.";
-                }
-            }
-            showProfile();
-        </script>
 </body>
 
 </html>
